@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8">
+    <title>Telop Template</title>
+  </head>
+  <body><svg viewBox="0 0 1920 1080"></svg></body>
+
+  <script>
+    const HEIGHT        = 1080;
+    const WIDTH         = 1920;
+    const COLOR         = '#ffffff';
+    const STROKE_WIDTH  = 20;
+    const STROKE_COLORS = ['#000000', '#00ff00', '#ff0000'];
+    const SCRIPTS       = [
+      '　　　　　　　　　　　　　　　　　　',
+      '　　　　　　　　　　　　　　　　　　',
+      '　　　　　　　　　　　　　　　　　　',
+      '　　　　　　　　　　　　　　　　　　',
+      'テレビとかYouTubeみたいな',
+      'テロップをSVGとJSで表現するやつ',
+      '(多重袋文字)'
+    ];
+  </script>
+
+  <script>
+    window.addEventListener("load", (function() {
+      const lineHeight = (HEIGHT - HEIGHT / SCRIPTS.length) / SCRIPTS.length;
+      const svg        = document.querySelector('svg');
+      const newText    = function(script, i) {
+        const text     = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const textNode = document.createTextNode(script);
+        text.setAttribute('x', WIDTH / 2);
+        text.setAttribute('y', lineHeight * (i + .75));
+        text.appendChild(textNode);
+        svg.firstChild ? svg.insertBefore(text, svg.firstChild) : svg.appendChild(text);
+        return text;
+      }
+      SCRIPTS.forEach(function(script, i) {
+        newText(script, i).setAttribute('fill', COLOR);
+        STROKE_COLORS.forEach(function(strokeColor, j) {
+          const text = newText(script, i)
+          text.setAttribute('stroke-width', STROKE_WIDTH * (j + 1));
+          text.setAttribute('stroke', strokeColor);
+        });
+      });
+    })(), false);
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+    }
+    text {
+      dominant-baseline: central;
+      font-family: 'Rounded-X Mgen+ 1cp';
+      font-size: 72pt;
+      font-weight: 900;
+      text-anchor: middle;
+      paint-order: stroke fill markers;
+      /* stroke-linejoin: miter; */
+    }
+  </style>
+</html>

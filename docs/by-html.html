@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="UTF-8">
+    <title>Telop Template</title>
+  <body>
+    <div>
+      テレビとかYouTubeみたいな
+      テロップをHTMLとJSで表現するやつ
+      (多重袋文字)
+    </div>
+
+    <script>
+      const HEIGHT        = 1080;
+      const WIDTH         = 1920;
+      const COLOR         = '#ffffff';
+      const STROKE_WIDTH  = 20;
+      const STROKE_COLORS = ['#000000', '#00ff00', '#ff0000'];
+    </script>
+
+    <script>
+      window.addEventListener('load', (function() {
+        const div               = document.querySelector('div');
+        const script            = div.textContent.trim().replace(/\n/g, '<br>');
+        const insert            = function(html) { document.body.insertAdjacentHTML('afterbegin', html); }
+        document.body.innerHTML = '<div style="color: ' + COLOR + '">' + script + '</div>';
+        STROKE_COLORS.forEach(function(strokeColor, i) {
+          insert('<div style="-webkit-text-stroke: ' + STROKE_WIDTH * (i + 1) + 'px ' + strokeColor + '">' + script + '</div>');
+        });
+      })(), false);
+    </script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        position: relative;
+      }
+      div {
+        font-family: 'Rounded-X Mgen+ 1cp';
+        font-size: 72pt;
+        font-weight: 900;
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  </body>
+</html>
